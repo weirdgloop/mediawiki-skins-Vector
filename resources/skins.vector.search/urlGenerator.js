@@ -30,15 +30,15 @@ function urlGenerator( config ) {
 		/**
 		 * @param {RestResult|SearchResult|string} suggestion
 		 * @param {UrlParams} params
+		 * @param {string} scriptPath
 		 * @param {string} articlePath
 		 * @return {string}
 		 */
 		generateUrl(
 			suggestion,
-			params = {
-				title: 'Special:Search'
-			},
-			articlePath = config.get( 'wgScript' )
+			params = {},
+			scriptPath = config.get( 'wgScript' ),
+			articlePath = config.get( 'wgArticlePath' ),
 		) {
 			if ( typeof suggestion !== 'string' ) {
 				suggestion = suggestion.title;
@@ -47,14 +47,16 @@ function urlGenerator( config ) {
 				// to the search results page (prevents being redirected to a certain
 				// article).
 				params = Object.assign( {}, params, {
-					fulltext: '1'
+					title: 'Special:Search',
+					fulltext: '1',
+					search: suggestion
 				} );
+
+				const searchParams = new URLSearchParams(params);
+				return `${scriptPath}?${searchParams.toString()}`;
 			}
 
-			const searchParams = new URLSearchParams(
-				Object.assign( {}, params, { search: suggestion } )
-			);
-			return `${articlePath}?${searchParams.toString()}`;
+			return articlePath.replace('$1', suggestion);
 		}
 	} );
 }
