@@ -120,7 +120,8 @@
 						"skins.vector.legacy.js"
 					],
 					"styles": [
-						"skins.vector.styles.legacy"
+						"skins.vector.styles.legacy",
+						"skins.vector.search.codex.styles"
 					],
 					"messages": [
 						"tooltip-p-logo",
@@ -457,11 +458,21 @@
 				"resources/skins.vector.legacy.js/skin-legacy.js",
 				"resources/skins.vector.legacy.js/portlets.js",
 				"resources/skins.vector.legacy.js/collapsibleTabs.js",
-				"resources/skins.vector.legacy.js/vector.js"
+				"resources/skins.vector.legacy.js/vector.js",
+				{
+					"name": "resources/skins.vector.legacy.js/config.json",
+					"config": [
+						"VectorSearchApiUrl"
+					]
+				},
+				"resources/skins.vector.legacy.js/searchLoader.js"
 			],
 			"dependencies": [
 				"mediawiki.page.ready",
 				"mediawiki.util"
+			],
+			"messages": [
+				"vector-search-loader"
 			]
 		},
 		"skins.vector.typographySurvey": {
