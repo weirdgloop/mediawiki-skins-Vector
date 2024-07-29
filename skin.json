@@ -130,7 +130,8 @@
 						"skins.vector.legacy.js"
 					],
 					"styles": [
-						"skins.vector.styles.legacy"
+						"skins.vector.styles.legacy",
+						"skins.vector.search.codex.styles"
 					],
 					"messages": [
 						"tooltip-p-logo",
