@@ -54,6 +54,7 @@
 	"vector-jumptocontent": "Ir para o conteúdo",
 	"vector-more-actions": "Mais",
 	"vector-search-loader": "Carregando sugestões de pesquisa",
+	"vector-search-redirectedfrom": "redirecionado de $1",
 	"vector-searchsuggest-containing": "Procurar pelas páginas contendo <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong>",
 	"vector-intro-page": "Help:Introduction",
 	"vector-toc-label": "Conteúdo",

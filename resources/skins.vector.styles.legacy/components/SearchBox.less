@@ -95,16 +95,32 @@
 
 .vector-search-box {
 	font-size: .8em;
+	width: 20vw;
+	min-width: 20em;
 
 	.cdx-typeahead-search--show-thumbnail.cdx-typeahead-search--auto-expand-width:not(.cdx-typeahead-search--expanded) {
 		margin-left: 0;
 	}
 
 	.cdx-search-input {
-		min-width: 5em;
-		width: 18vw;
+		.cdx-text-input {
+			min-width: auto;
+		}
 
 		.cdx-text-input__input {
+			width: 100%;
+
+			// match Codex styles as close as possible
+			font-family: inherit;
+			font-size: inherit;
+			min-height: 32px;
+			padding-top: 4px;
+			padding-bottom: 4px;
+			border-width: 1px;
+			border-style: solid;
+			border-radius: 2px;
+
+			// don't let anything change the padding here, because we're hiding the standard start icon
 			padding-left: 8px !important;
 		}
 
@@ -119,6 +135,11 @@
 
 	.cdx-typeahead-search .cdx-menu-item__content {
 		padding: 2px 5px;
+		align-items: center;
+
+		.cdx-menu-item__text__description {
+			font-size: .8em;
+		}
 	}
 
 	.cdx-typeahead-search__search-footer {
