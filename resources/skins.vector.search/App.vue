@@ -228,9 +228,11 @@ module.exports = exports = defineComponent( {
 							this.suggestions = [];
 						}
 						this.suggestions.push(
-							...instrumentation.addWprovToSearchResultUrls(
-								data.results, this.suggestions.length
-							)
+							// WGL: do not add wprov to search result URLs
+							...data.results,
+							// ...instrumentation.addWprovToSearchResultUrls(
+							// 	data.results, this.suggestions.length
+							// )
 						);
 						this.searchFooterUrl = urlGenerator.generateUrl( query );
 					}
