@@ -20,6 +20,7 @@
  * @property {string} key
  * @property {string} title
  * @property {string} [description]
+ * @property {string} [matched_title]
  * @property {RestThumbnail | null} [thumbnail]
  *
  */

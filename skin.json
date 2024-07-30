@@ -223,7 +223,8 @@
 			"messages": [
 				"searchbutton",
 				"searchresults",
-				"vector-searchsuggest-containing"
+				"vector-searchsuggest-containing",
+				"redirectedfrom"
 			]
 		},
 		"skins.vector.styles.legacy": {

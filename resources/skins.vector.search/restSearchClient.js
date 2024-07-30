@@ -39,6 +39,7 @@ function adaptApiResponse( config, query, restResponse, showDescription ) {
 		query,
 		results: restResponse.pages.map( ( page, index ) => {
 			const thumbnail = page.thumbnail;
+
 			return {
 				id: page.id,
 				value: page.id || -( index + 1 ),
@@ -46,6 +47,7 @@ function adaptApiResponse( config, query, restResponse, showDescription ) {
 				key: page.key,
 				title: page.title,
 				description: showDescription ? page.description : undefined,
+				supportingText: page.matched_title ? mw.message( 'redirectedfrom', page.matched_title ) : undefined,
 				url: urlGeneratorInstance.generateUrl( page ),
 				thumbnail: thumbnail ? {
 					url: thumbnail.url,
