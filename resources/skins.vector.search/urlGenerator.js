@@ -31,14 +31,12 @@ function urlGenerator( config ) {
 		 * @param {RestResult|SearchResult|string} suggestion
 		 * @param {UrlParams} params
 		 * @param {string} scriptPath
-		 * @param {string} articlePath
 		 * @return {string}
 		 */
 		generateUrl(
 			suggestion,
 			params = {},
 			scriptPath = config.get( 'wgScript' ),
-			articlePath = config.get( 'wgArticlePath' ),
 		) {
 			let page = '';
 			if ( typeof suggestion !== 'string' ) {
@@ -62,7 +60,7 @@ function urlGenerator( config ) {
 				return `${scriptPath}?${searchParams.toString()}`;
 			}
 
-			return articlePath.replace('$1', page);
+			return mw.Title.newFromText( page ).getUrl();
 		}
 	} );
 }
