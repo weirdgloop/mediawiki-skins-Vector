@@ -40,23 +40,29 @@ function urlGenerator( config ) {
 			scriptPath = config.get( 'wgScript' ),
 			articlePath = config.get( 'wgArticlePath' ),
 		) {
+			let page = '';
 			if ( typeof suggestion !== 'string' ) {
-				suggestion = suggestion.title;
+				page = suggestion.title;
+				if (suggestion.fragment) {
+					page += `#${suggestion.fragment}`;
+				}
 			} else {
+				page = suggestion;
+
 				// Add `fulltext` query param to search within pages and for navigation
 				// to the search results page (prevents being redirected to a certain
 				// article).
 				params = Object.assign( {}, params, {
 					title: 'Special:Search',
 					fulltext: '1',
-					search: suggestion
+					search: page
 				} );
 
 				const searchParams = new URLSearchParams(params);
 				return `${scriptPath}?${searchParams.toString()}`;
 			}
 
-			return articlePath.replace('$1', suggestion);
+			return articlePath.replace('$1', page);
 		}
 	} );
 }

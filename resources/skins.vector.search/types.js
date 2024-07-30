@@ -21,6 +21,7 @@
  * @property {string} title
  * @property {string} [description]
  * @property {string} [matched_title]
+ * @property {string} [fragment]
  * @property {RestThumbnail | null} [thumbnail]
  *
  */
@@ -38,6 +39,7 @@
  * @property {string} key
  * @property {string} title
  * @property {string} [description]
+ * @property {string} [fragment]
  * @property {SearchResultThumbnail} [thumbnail]
  */
 

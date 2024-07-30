@@ -224,7 +224,7 @@
 				"searchbutton",
 				"searchresults",
 				"vector-searchsuggest-containing",
-				"redirectedfrom"
+				"vector-search-redirectedfrom"
 			]
 		},
 		"skins.vector.styles.legacy": {

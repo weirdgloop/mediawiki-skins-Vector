@@ -39,6 +39,12 @@ function adaptApiResponse( config, query, restResponse, showDescription ) {
 		query,
 		results: restResponse.pages.map( ( page, index ) => {
 			const thumbnail = page.thumbnail;
+			let description = showDescription ? page.description : undefined;
+
+			if (page.matched_title) {
+				// WGL: override the description for redirects
+				description = mw.message( 'vector-search-redirectedfrom', page.matched_title );
+			}
 
 			return {
 				id: page.id,
@@ -46,8 +52,7 @@ function adaptApiResponse( config, query, restResponse, showDescription ) {
 				label: page.title,
 				key: page.key,
 				title: page.title,
-				description: showDescription ? page.description : undefined,
-				supportingText: page.matched_title ? mw.message( 'redirectedfrom', page.matched_title ) : undefined,
+				description: description,
 				url: urlGeneratorInstance.generateUrl( page ),
 				thumbnail: thumbnail ? {
 					url: thumbnail.url,
