@@ -14,7 +14,7 @@ function main() {
 	$( vector.init );
 	portlets.main();
 	initSearchLoader( document );
-	pageReady.loadSearchModule( 'mediawiki.searchSuggest' );
+	// pageReady.loadSearchModule( 'mediawiki.searchSuggest' );
 	teleportTarget.classList.add( 'vector-body' );
 }
 
