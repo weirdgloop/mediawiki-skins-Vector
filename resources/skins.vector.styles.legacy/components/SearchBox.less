@@ -93,6 +93,11 @@
 //	.mixin-screen-reader-text();
 //}
 
+#searchform, .cdx-search-input {
+	// to allow the search button to be absolutely positioned relative to its parent
+	position: relative;
+}
+
 .vector-search-box {
 	font-size: .8em;
 	width: 20vw;
@@ -129,8 +134,33 @@
 		}
 	}
 
-	.cdx-search-input__end-button {
-		display: none;
+	.cdx-search-input__end-button.cdx-button {
+		&, &:hover {
+			background-color: transparent;
+		}
+
+		// mimic the old Vector search icon for the end button
+		display: block;
+		position: absolute;
+		top: 2px;
+		bottom: 1px;
+		right: 5px;
+		min-width: @min-width-search-button;
+		width: @width-search-button;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		/* Opera 12 on RTL flips the text in a funny way without this. */
+		/* @noflip */
+		direction: ltr;
+		text-indent: -99999px;
+		white-space: nowrap;
+		overflow: hidden;
+		z-index: @z-index-search-button;
+		background: no-repeat center/unit( 16 / @font-size-browser / @font-size-search-input, em ) url( images/search.svg );
+		opacity: 0.67;
+		margin: 0;
+		min-height: unset;
 	}
 
 	.cdx-typeahead-search .cdx-menu-item__content {
