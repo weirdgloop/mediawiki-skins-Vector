@@ -2,8 +2,6 @@
 /** @interface MediaWikiPageReadyModule */
 const
 	collapsibleTabs = require( './collapsibleTabs.js' ),
-	/** @type {MediaWikiPageReadyModule} */
-	pageReady = require( /** @type {string} */( 'mediawiki.page.ready' ) ),
 	portlets = require( './portlets.js' ),
 	vector = require( './vector.js' ),
 	initSearchLoader = require( './searchLoader.js' ).initSearchLoader,
