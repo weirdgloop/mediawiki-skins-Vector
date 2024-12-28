@@ -21,10 +21,10 @@
 
 namespace MediaWiki\Skins\Vector\Tests\Unit\Components;
 
-use HashConfig;
+use MediaWiki\Config\HashConfig;
+use MediaWiki\Message\Message;
 use MediaWiki\Skins\Vector\Components\VectorComponentTableOfContents;
 use MediaWiki\Skins\Vector\FeatureManagement\FeatureManager;
-use Message;
 use MessageLocalizer;
 
 /**
@@ -177,7 +177,7 @@ class VectorComponentTableOfContentsTest extends \MediaWikiUnitTestCase {
 			$msg = $this->createMock( Message::class );
 			$msg->method( '__toString' )->willReturn( $key );
 			$msg->method( 'escaped' )->willReturn( $key );
-			$msg->method( 'rawParams' )->will( $this->returnSelf() );
+			$msg->method( 'rawParams' )->willReturnSelf();
 			$msg->method( 'text' )->willReturn( $key );
 			return $msg;
 		} );

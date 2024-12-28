@@ -3,6 +3,7 @@
 		"authors": [
 			"Agilight",
 			"Karak-Kyzyl",
+			"Mongush Salim",
 			"Riverman",
 			"Sborsody",
 			"Монгуш Салим",
@@ -31,5 +32,6 @@
 	"vector-main-menu-label": "Кол меню",
 	"vector-page-tools-label": "Херекселдер",
 	"vector-page-tools-general-label": "Ниити",
-	"vector-unpin-element-label": "чажырар"
+	"vector-unpin-element-label": "чажырар",
+	"vector-appearance-unpinned-popup": "Даштыкы хевирниң менюзун бээр көжүрген."
 }

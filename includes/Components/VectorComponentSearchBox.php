@@ -1,8 +1,8 @@
 <?php
 namespace MediaWiki\Skins\Vector\Components;
 
-use Config;
-use Linker;
+use MediaWiki\Config\Config;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Title\Title;
 use MessageLocalizer;
 
@@ -119,7 +119,7 @@ class VectorComponentSearchBox implements VectorComponent {
 		$searchButton = new VectorComponentButton(
 			$this->localizer->msg( 'search' ),
 			'search',
-			'',
+			null,
 			'search-toggle',
 			$collapseIconAttrs,
 			'quiet',

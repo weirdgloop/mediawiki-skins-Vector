@@ -44,6 +44,12 @@ function show() {
 function hide() {
 	document.body.classList.remove( STICKY_HEADER_VISIBLE_CLASS );
 	document.body.classList.add( ULS_HIDE_CLASS );
+
+	// Dismiss dropdown menus and search if active
+	const stickyHeader = /** @type {HTMLElement} */ ( document.getElementById( STICKY_HEADER_ID ) );
+	if ( stickyHeader && stickyHeader.contains( document.activeElement ) ) {
+		document.body.click();
+	}
 }
 
 /**
@@ -139,7 +145,7 @@ function updateStickyWatchlink( watchLink, isWatched ) {
  * @param {string} className
  */
 function removeClassFromNodes( nodes, className ) {
-	Array.prototype.forEach.call( nodes, function ( node ) {
+	Array.prototype.forEach.call( nodes, ( node ) => {
 		node.classList.remove( className );
 	} );
 }
@@ -148,7 +154,7 @@ function removeClassFromNodes( nodes, className ) {
  * @param {NodeList} nodes
  */
 function removeNodes( nodes ) {
-	Array.prototype.forEach.call( nodes, function ( node ) {
+	Array.prototype.forEach.call( nodes, ( node ) => {
 		node.parentNode.removeChild( node );
 	} );
 }
@@ -287,7 +293,7 @@ function prepareEditIcons(
 		copyButtonAttributes( primaryEdit, primaryEditSticky );
 		suffixStickyHref( primaryEditSticky );
 
-		primaryEditSticky.addEventListener( 'click', function ( ev ) {
+		primaryEditSticky.addEventListener( 'click', ( ev ) => {
 			const target = ev.target;
 			// T336639:
 			// eslint-disable-next-line no-jquery/no-jquery-constructor
@@ -310,7 +316,7 @@ function prepareEditIcons(
 		if ( secondaryEdit ) {
 			copyButtonAttributes( secondaryEdit, wikitextSticky );
 			suffixStickyHref( wikitextSticky );
-			wikitextSticky.addEventListener( 'click', function ( ev ) {
+			wikitextSticky.addEventListener( 'click', ( ev ) => {
 				const target = ev.target;
 				if ( target ) {
 					// T336639:
@@ -418,7 +424,7 @@ function prepareUserLinksDropdown( userLinksDropdown ) {
 	// Make the logout go through the API (T324638)
 	const logoutLink = /** @type {HTMLAnchorElement} */( userLinksDropdownClone.querySelector( '#pt-logout-sticky-header a' ) );
 	if ( logoutLink ) {
-		logoutLink.addEventListener( 'click', function ( ev ) {
+		logoutLink.addEventListener( 'click', ( ev ) => {
 			ev.preventDefault();
 			mw.hook( 'skin.logout' ).fire( logoutLink.href );
 		} );
@@ -562,7 +568,7 @@ function initStickyHeader( props ) {
 	addVisualEditorHooks( props.stickyIntersection, props.observer );
 
 	// Make sure ULS outside sticky header disables the sticky header behaviour.
-	mw.hook( 'mw.uls.compact_language_links.open' ).add( function ( $trigger ) {
+	mw.hook( 'mw.uls.compact_language_links.open' ).add( ( $trigger ) => {
 		const trigger = $trigger[ 0 ];
 		if ( trigger.id !== 'p-lang-btn-sticky-header' ) {
 			const bodyClassList = document.body.classList;
@@ -574,7 +580,7 @@ function initStickyHeader( props ) {
 	// Make sure ULS dialog is sticky.
 	const langBtn = props.header.querySelector( '#p-lang-btn-sticky-header' );
 	if ( langBtn ) {
-		langBtn.addEventListener( 'click', function () {
+		langBtn.addEventListener( 'click', () => {
 			const bodyClassList = document.body.classList;
 			bodyClassList.remove( ULS_HIDE_CLASS );
 			bodyClassList.add( ULS_STICKY_CLASS );

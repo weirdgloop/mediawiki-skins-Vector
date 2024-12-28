@@ -9,9 +9,7 @@
 	// If there are no languages and JavaScript is not enabled there is no fallback so we hide
 	// the button altogether.
 	.client-nojs & .mw-portlet-lang-heading-0 {
-		// FIXME: remove !important after VectorZebra is the default
-		/* stylelint-disable-next-line declaration-no-important */
-		display: none !important;
+		display: none;
 	}
 
 	.vector-dropdown-label {
@@ -20,17 +18,10 @@
 		// Set opacity to `1` on language button (it applies to more menu because of label color).
 		opacity: @opacity-base;
 
-		.vector-dropdown-label-text {
-			// Special treatment for language button, based on Vector font-size
-			font-size: @font-size-base;
-		}
-
 		// T291286: Temporarily use progressive ULS style
 		&.cdx-button--action-progressive.cdx-button--weight-quiet::after {
-			// !important needed to override Zebra Dropdown.less styles
-			// FIXME: Remove !important when Zebra is default
-			/* stylelint-disable-next-line declaration-no-important */
-			background-image: url( ./images/arrow-down-progressive.svg ) !important;
+			mask-image: url( ./images/arrow-down-progressive.svg );
+			background-color: @color-progressive;
 			opacity: @opacity-base;
 		}
 	}
@@ -43,10 +34,7 @@
 
 			&::after {
 				// Invert arrow color
-				// !important needed to override Zebra Dropdown.less styles
-				// FIXME: Remove !important when Zebra is default
-				/* stylelint-disable-next-line declaration-no-important */
-				background-image: url( ./images/arrow-down-invert.svg ) !important;
+				background-image: url( ./images/arrow-down-invert.svg );
 			}
 		}
 	}
@@ -78,7 +66,7 @@
 
 		.mw-portlet-empty-language-selector-body {
 			padding: 20px;
-			border-bottom: @border-style-base @border-width-base @border-color-portal-heading;
+			border-bottom: @border-style-base @border-width-base @border-color-subtle;
 			color: @color-subtle;
 		}
 	}

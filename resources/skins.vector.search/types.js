@@ -23,7 +23,6 @@
  * @property {string} [matched_title]
  * @property {string} [fragment]
  * @property {RestThumbnail | null} [thumbnail]
- *
  */
 
 /**

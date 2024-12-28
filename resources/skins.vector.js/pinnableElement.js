@@ -73,13 +73,13 @@ function togglePinnableClasses( header ) {
  * @param {string} pinnableElementId
  */
 function addPinnableElementIndicator( pinnableElementId ) {
-	const dropdownSelector = document.querySelector( `#${pinnableElementId}-dropdown` );
+	const dropdownSelector = document.querySelector( `#${ pinnableElementId }-dropdown` );
 	const container = dropdownSelector && dropdownSelector.parentElement;
 	if ( container ) {
 		// Possible messages include:
 		// * vector-page-tools-unpinned-popup
 		// * vector-main-menu-unpinned-popup
-		const message = mw.msg( `${pinnableElementId}-unpinned-popup` );
+		const message = mw.msg( `${ pinnableElementId }-unpinned-popup` );
 		popupNotification.add( container, message, pinnableElementId )
 			.then( ( popupWidget ) => {
 				if ( popupWidget ) {
@@ -112,6 +112,7 @@ function pinnableElementClickHandler( header ) {
 		setSavedPinnableState( header );
 		const newContainerId = isPinnedElement ? pinnedContainerId : unpinnedContainerId;
 		movePinnableElement( pinnableElementId, newContainerId );
+		window.dispatchEvent( new Event( 'resize' ) );
 		setFocusAfterToggle( pinnableElementId );
 		if ( !isPinnedElement ) {
 			addPinnableElementIndicator( pinnableElementId );
@@ -151,7 +152,7 @@ function setFocusAfterToggle( pinnableElementId ) {
  */
 function bindPinnableToggleButtons( header ) {
 	const toggleButtons = header.querySelectorAll( '.vector-pinnable-header-toggle-button' );
-	toggleButtons.forEach( function ( button ) {
+	toggleButtons.forEach( ( button ) => {
 		button.addEventListener( 'click', pinnableElementClickHandler.bind( null, header ) );
 	} );
 }
@@ -168,7 +169,7 @@ function bindPinnableBreakpoint( header ) {
 		return;
 	}
 
-	const pinnableBreakpoint = window.matchMedia( '(max-width: 999px)' );
+	const pinnableBreakpoint = window.matchMedia( '(max-width: 1119px)' );
 	// Set saved pinned state for narrow breakpoint behaviour.
 	setSavedPinnableState( header );
 	// Check the breakpoint in case an override is needed on pageload.
@@ -194,6 +195,30 @@ function isPinned( header ) {
 }
 
 /**
+ * Ensures the header classes are in sync with the pinnable headers state
+ * in the case that it's moved via movePinnableElement().
+ *
+ * @param {HTMLElement} pinnableElement
+ */
+function updatePinnableHeaderClass( pinnableElement ) {
+	const header = pinnableElement.querySelector( '.vector-pinnable-header' );
+
+	// Because Typescript
+	if ( !header || !( header instanceof HTMLElement ) ) {
+		return;
+	}
+
+	// Toggle header classes
+	if ( isPinned( header ) ) {
+		header.classList.add( PINNED_HEADER_CLASS );
+		header.classList.remove( UNPINNED_HEADER_CLASS );
+	} else {
+		header.classList.remove( PINNED_HEADER_CLASS );
+		header.classList.add( UNPINNED_HEADER_CLASS );
+	}
+}
+
+/**
  * @param {string} pinnableElementId
  * @param {string} newContainerId
  */
@@ -209,9 +234,26 @@ function movePinnableElement( pinnableElementId, newContainerId ) {
 	// Avoid moving element if unnecessary
 	if ( currContainer.id !== newContainerId ) {
 		newContainer.insertAdjacentElement( 'beforeend', pinnableElem );
+		updatePinnableHeaderClass( pinnableElem );
 	}
 
 	popupNotification.hideAll();
+}
+
+/**
+ * Update the pinnable element location in the DOM based off of whether its pinned or not.
+ * This is only necessary with pinnable elements that use client preferences (i.e. appearance menu)
+ * as all other pinnable elements should be serverside rendered in the correct location
+ *
+ * @param {HTMLElement} header
+ */
+function updatePinnableElementLocation( header ) {
+	const newContainerId = isPinned( header ) ?
+		header.dataset.pinnedContainerId :
+		header.dataset.unpinnedContainerId;
+	if ( header.dataset.pinnableElementId && newContainerId ) {
+		movePinnableElement( header.dataset.pinnableElementId, newContainerId );
+	}
 }
 
 function initPinnableElement() {
@@ -220,26 +262,42 @@ function initPinnableElement() {
 		if ( header.dataset.featureName && header.dataset.pinnableElementId ) {
 			bindPinnableToggleButtons( header );
 			bindPinnableBreakpoint( header );
+			updatePinnableElementLocation( header );
 		}
 	} );
 }
 
+// T349924: Remove hasPinnedElements after one cycle of analyticsPinnedState() merge.
 /**
  * Checks if at least one of the elements in the HTML document is pinned based on CSS class names.
  *
- * @function
+ * @method
  * @return {boolean} True if at least one pinned element is found, otherwise false.
  */
 function hasPinnedElements() {
 	const suffixesToCheck = [ 'pinned-clientpref-1', 'pinned-enabled' ];
 	const htmlElement = document.documentElement;
-	return Array.from( htmlElement.classList ).some( ( className ) => {
-		return suffixesToCheck.some( ( suffix ) => className.endsWith( suffix ) );
-	} );
+	return Array.from( htmlElement.classList ).some(
+		( className ) => suffixesToCheck.some( ( suffix ) => className.endsWith( suffix ) )
+	);
+}
+
+/**
+ * @stable for use in WikimediaEvents only.
+ * Checks if at least one of the elements in the HTML document is pinned based on CSS class names.
+ *
+ * @method
+ * @return {boolean} True if at least one pinned element is found, otherwise false.
+ */
+function analyticsPinnedState() {
+	const htmlElement = document.documentElement;
+	return htmlElement.classList.contains( 'vector-feature-main-menu-pinned-enabled' ) || htmlElement.classList.contains( 'vector-feature-page-tools-pinned-enabled' );
 }
 
 module.exports = {
+	// T349924: Remove hasPinnedElements.
 	hasPinnedElements,
+	analyticsPinnedState,
 	initPinnableElement,
 	movePinnableElement,
 	setFocusAfterToggle,

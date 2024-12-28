@@ -6,31 +6,25 @@
 @import './mixins.less';
 
 @media screen {
-	.vector-feature-zebra-design-disabled {
-		// Layouts
-		@import './layouts/screen.less';
-		@import './layouts/preZebra.less';
-		@import './layouts/grid.less';
-		@import './layouts/toc/pinned.less';
-		@import './layouts/toc/unpinned.less';
-		// Components
-		@import './components/Dropdown.less';
-		@import './components/MainMenu.less';
-		@import './components/PinnableElement.less';
-		@import './components/PinnableHeader.less';
-		@import './components/PageTools.less';
-		@import './components/StickyHeader.less';
-		@import './components/TableOfContents.less';
-	}
-}
-
-@media screen {
 	// Common styles
+	@import './layouts/screen.less';
+	@import './layouts/grid.less';
+	@import './layouts/toc/pinned.less';
+	@import './layouts/toc/unpinned.less';
 	@import './normalize.less';
 	@import './typography.less';
+	@import './links.less';
+	@import './media.less';
 
 	// Components
+	@import './components/Dropdown.less';
+	@import './components/MainMenu.less';
+	@import './components/PinnableElement.less';
+	@import './components/PinnableHeader.less';
+	@import './components/PageTools.less';
+	@import './components/TableOfContents.less';
 	@import './components/Button.less';
+	@import './components/Appearance.less';
 	@import './components/LanguageDropdown.less';
 	@import './components/UserLinks.less';
 	@import './components/Header.less';
@@ -41,11 +35,16 @@
 	@import './components/MenuTabs.less';
 	@import './components/PageTitlebar.less';
 	@import './components/PageToolbar.less';
-	@import './components/PopupNotification.less';
 	@import './components/SearchBox.less';
 	@import './components/SiteNotice.less';
 	@import './components/Watchstar.less';
 	@import './components/BottomDock.less';
+
+	// JS only features. These should be hidden by default but will
+	// be displayed by skins.vector.js when loaded.
+	.vector-sticky-header-container {
+		display: none;
+	}
 }
 
 @media all {
@@ -57,5 +56,3 @@
 	@import './print.less';
 	@import './layouts/print.less';
 }
-
-@import './layouts/gradeC.less';

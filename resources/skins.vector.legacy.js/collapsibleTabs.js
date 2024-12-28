@@ -1,7 +1,7 @@
 /* eslint-disable no-jquery/no-jquery-constructor, no-jquery/no-other-methods, no-jquery/no-class,
-	no-jquery/no-extend, no-jquery/no-data, no-jquery/no-css, no-jquery/no-visibility, no-jquery/no-trigger,
-	no-jquery/no-is-empty-object, no-jquery/no-find-collection, no-jquery/no-attr, no-jquery/no-parent,
-	no-jquery/no-each-collection */
+	no-jquery/no-extend, no-jquery/no-data, no-jquery/no-css, no-jquery/no-visibility,
+	no-jquery/no-trigger, no-jquery/no-is-empty-object, no-jquery/no-find-collection,
+	no-jquery/no-attr, no-jquery/no-parent, no-jquery/no-each-collection */
 /**
  * This adds behaviour to Vector's tabs in the bottom right so that at smaller
  * displays they collapse under the more menu.
@@ -42,7 +42,7 @@ function init() {
 		// if we haven't already bound our resize handler, bind it now
 		if ( !boundEvent ) {
 			boundEvent = true;
-			$( window ).on( 'resize', mw.util.debounce( function () {
+			$( window ).on( 'resize', mw.util.debounce( () => {
 				rAF( $.collapsibleTabs.handleResize );
 			}, 10 ) );
 		}
@@ -96,7 +96,7 @@ function init() {
 			return settings || {};
 		},
 		handleResize: function () {
-			$.collapsibleTabs.instances.forEach( function ( $el ) {
+			$.collapsibleTabs.instances.forEach( ( $el ) => {
 				const data = $.collapsibleTabs.getSettings( $el );
 
 				if ( $.isEmptyObject( data ) || data.shifting ) {
@@ -188,7 +188,7 @@ function init() {
 					.data( 'collapsibleTabsSettings', data )
 					.animate( { width: expandedWidth + 'px' }, 'normal', function () {
 						$( this ).attr( 'style', 'display: block;' );
-						rAF( function () {
+						rAF( () => {
 							// Update the 'expandedWidth' in case someone was brazen enough to
 							// change the tab's contents after the page load *gasp* (T71729). This
 							// doesn't prevent a tab from collapsing back and forth once, but at

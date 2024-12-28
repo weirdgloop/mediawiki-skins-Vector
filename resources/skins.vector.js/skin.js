@@ -1,5 +1,4 @@
 const languageButton = require( './languageButton.js' ),
-	limitedWidthToggle = require( './limitedWidthToggle.js' ),
 	pinnableElement = require( './pinnableElement.js' ),
 	searchToggle = require( './searchToggle.js' ),
 	echo = require( './echo.js' ),
@@ -8,9 +7,12 @@ const languageButton = require( './languageButton.js' ),
 	initSearchLoader = require( './searchLoader.js' ).initSearchLoader,
 	portletsManager = require( './portlets.js' ),
 	dropdownMenus = require( './dropdownMenus.js' ).dropdownMenus,
+	tables = require( './tables.js' ).init,
 	watchstar = require( './watchstar.js' ).init,
 	setupIntersectionObservers = require( './setupIntersectionObservers.js' ),
 	menuTabs = require( './menuTabs.js' ),
+	userPreferences = require( './userPreferences.js' ),
+	{ isNightModeGadgetEnabled, disableNightModeForGadget, alterExclusionMessage, removeBetaNotice } = require( './disableNightModeIfGadget.js' ),
 	teleportTarget = /** @type {HTMLElement} */require( /** @type {string} */ ( 'mediawiki.page.ready' ) ).teleportTarget;
 
 /**
@@ -46,33 +48,6 @@ function enableCssAnimations( document ) {
 }
 
 /**
- * In https://phabricator.wikimedia.org/T313409 #p-namespaces was renamed to #p-associatedPages
- * This code maps items added by gadgets to the new menu.
- * This code can be removed in MediaWiki 1.40.
- */
-function addNamespacesGadgetSupport() {
-	// Set up hidden dummy portlet.
-	const dummyPortlet = document.createElement( 'div' );
-	dummyPortlet.setAttribute( 'id', 'p-namespaces' );
-	dummyPortlet.setAttribute( 'style', 'display: none;' );
-	dummyPortlet.appendChild( document.createElement( 'ul' ) );
-	document.body.appendChild( dummyPortlet );
-	mw.hook( 'util.addPortletLink' ).add( function ( /** @type {Element} */ node ) {
-		const namespaces = document.querySelector( '#p-namespaces' );
-		// If it was added to p-namespaces, show warning and move.
-		if ( namespaces && node.closest( '#p-namespaces' ) ) {
-			const list = document.querySelector( '#p-associated-pages ul' );
-			if ( list ) {
-				list.appendChild( node );
-			}
-			mw.log.warn( 'Please update call to mw.util.addPortletLink with ID p-namespaces. Use p-associatedPages instead.' );
-			// in case it was empty before:
-			mw.util.showPortlet( 'p-associated-pages' );
-		}
-	} );
-}
-
-/**
  * @param {Window} window
  * @return {void}
  */
@@ -82,13 +57,7 @@ function main( window ) {
 	languageButton();
 	echo();
 	portletsManager.main();
-	dropdownMenus();
-	// menuTabs should follow `dropdownMenus` as that can move menu items from a
-	// tab menu to a dropdown.
-	menuTabs();
-	addNamespacesGadgetSupport();
 	watchstar();
-	limitedWidthToggle();
 	// Initialize the search toggle for the main header only. The sticky header
 	// toggle is initialized after Codex search loads.
 	const searchToggleElement = document.querySelector( '.mw-header .search-toggle' );
@@ -100,6 +69,46 @@ function main( window ) {
 	setupIntersectionObservers.main();
 	// Apply body styles to teleported elements
 	teleportTarget.classList.add( 'vector-body' );
+
+	// Load client preferences
+	const appearanceMenuSelector = '#vector-appearance';
+	const appearanceMenuExists = document.querySelectorAll( appearanceMenuSelector ).length > 0;
+	if ( appearanceMenuExists ) {
+		mw.loader.using( [
+			'skins.vector.clientPreferences',
+			'skins.vector.search.codex.styles',
+			'skins.vector.search.codex.scripts'
+		] ).then( () => {
+			const clientPreferences = require( /** @type {string} */ ( 'skins.vector.clientPreferences' ) );
+			const clientPreferenceConfig = ( require( './clientPreferences.json' ) );
+			// Can be removed once wgVectorNightMode is removed.
+			if ( document.documentElement.classList.contains( 'vector-feature-night-mode-disabled' ) ) {
+				// @ts-ignore issues relating to delete operator are not relevant here.
+				delete clientPreferenceConfig[ 'skin-theme' ];
+			}
+
+			// while we're in beta, temporarily check if the night mode gadget is installed and
+			// disable our night mode if so
+			if ( isNightModeGadgetEnabled() ) {
+				disableNightModeForGadget();
+				clientPreferences.render(
+					appearanceMenuSelector, clientPreferenceConfig, userPreferences
+				);
+				alterExclusionMessage();
+				removeBetaNotice();
+			} else {
+				clientPreferences.render(
+					appearanceMenuSelector, clientPreferenceConfig, userPreferences
+				);
+			}
+		} );
+	}
+
+	dropdownMenus();
+	// menuTabs should follow `dropdownMenus` as that can move menu items from a
+	// tab menu to a dropdown.
+	menuTabs();
+	tables();
 }
 
 /**
@@ -117,7 +126,7 @@ function init( window ) {
 	// When EventLogging is not available this will reject.
 	// This code can be removed by the end of the Desktop improvements project.
 	// https://www.mediawiki.org/wiki/Desktop_improvements
-	mw.loader.using( 'ext.eventLogging' ).then( function () {
+	mw.loader.using( 'ext.eventLogging' ).then( () => {
 		if (
 			mw.eventLog &&
 			mw.eventLog.eventInSample( 100 /* 1 in 100 */ ) &&
@@ -138,14 +147,15 @@ if ( document.readyState === 'interactive' || document.readyState === 'complete'
 	main( window );
 } else {
 	// This is needed when document.readyState === 'loading'.
-	document.addEventListener( 'DOMContentLoaded', function () {
+	document.addEventListener( 'DOMContentLoaded', () => {
 		main( window );
 	} );
 }
 
 // Provider of skins.vector.js module:
 /**
-* skins.vector.js
-* @stable for use inside WikimediaEvents ONLY.
-*/
+ * skins.vector.js
+ *
+ * @stable for use inside WikimediaEvents ONLY.
+ */
 module.exports = { pinnableElement };

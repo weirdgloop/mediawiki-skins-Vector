@@ -126,9 +126,7 @@ module.exports = function tableOfContents( props ) {
 	 *
 	 * @return {boolean}
 	 */
-	const prefersReducedMotion = () => {
-		return window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-	};
+	const prefersReducedMotion = () => window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 	/**
 	 * Sets an `ACTIVE_SECTION_CLASS` on the element with an id that matches `id`.
@@ -154,7 +152,7 @@ module.exports = function tableOfContents( props ) {
 		}
 
 		// Assign the active top and sub sections, apply classes
-		activeTopSection = /** @type {HTMLElement|undefined} */ ( selectedTocSection.closest( `.${TOP_SECTION_CLASS}` ) );
+		activeTopSection = /** @type {HTMLElement|undefined} */ ( selectedTocSection.closest( `.${ TOP_SECTION_CLASS }` ) );
 		if ( activeTopSection ) {
 			// T328089 Sometimes activeTopSection is null
 			activeTopSection.classList.add( ACTIVE_TOP_SECTION_CLASS );
@@ -249,8 +247,8 @@ module.exports = function tableOfContents( props ) {
 			return;
 		}
 
-		const topSection = /** @type {HTMLElement} */ ( tocSection.closest( `.${TOP_SECTION_CLASS}` ) );
-		const toggle = topSection.querySelector( `.${TOGGLE_CLASS}` );
+		const topSection = /** @type {HTMLElement} */ ( tocSection.closest( `.${ TOP_SECTION_CLASS }` ) );
+		const toggle = topSection.querySelector( `.${ TOGGLE_CLASS }` );
 
 		if ( topSection && toggle && expandedSections.indexOf( topSection ) < 0 ) {
 			toggle.setAttribute( 'aria-expanded', 'true' );
@@ -269,7 +267,6 @@ module.exports = function tableOfContents( props ) {
 	}
 
 	/**
-	 *
 	 * @param {string} id
 	 */
 	function changeActiveSection( id ) {
@@ -302,7 +299,7 @@ module.exports = function tableOfContents( props ) {
 	 */
 	function collapseSections( selectedIds ) {
 		const sectionIdsToCollapse = selectedIds || getExpandedSectionIds();
-		expandedSections = expandedSections.filter( function ( section ) {
+		expandedSections = expandedSections.filter( ( section ) => {
 			const isSelected = sectionIdsToCollapse.indexOf( section.id ) > -1;
 			const toggle = isSelected ? section.getElementsByClassName( TOGGLE_CLASS ) : undefined;
 			if ( isSelected && toggle && toggle.length > 0 ) {
@@ -333,10 +330,10 @@ module.exports = function tableOfContents( props ) {
 	 * Set aria-expanded attribute for all toggle buttons.
 	 */
 	function initializeExpandedStatus() {
-		const parentSections = props.container.querySelectorAll( `.${TOP_SECTION_CLASS}` );
+		const parentSections = props.container.querySelectorAll( `.${ TOP_SECTION_CLASS }` );
 		parentSections.forEach( ( section ) => {
 			const expanded = section.classList.contains( EXPANDED_SECTION_CLASS );
-			const toggle = section.querySelector( `.${TOGGLE_CLASS}` );
+			const toggle = section.querySelector( `.${ TOGGLE_CLASS }` );
 			if ( toggle ) {
 				toggle.setAttribute( 'aria-expanded', expanded.toString() );
 			}
@@ -348,7 +345,7 @@ module.exports = function tableOfContents( props ) {
 	 */
 	function handleHashChange() {
 		const hash = location.hash.slice( 1 );
-		const listItem = mw.util.getTargetFromFragment( `${SECTION_ID_PREFIX}${hash}` );
+		const listItem = mw.util.getTargetFromFragment( `${ SECTION_ID_PREFIX }${ hash }` );
 
 		if ( !listItem ) {
 			return;
@@ -384,7 +381,7 @@ module.exports = function tableOfContents( props ) {
 	 */
 	function bindPinnedToggleListeners() {
 		const toggleButtons = document.querySelectorAll( '.vector-toc-pinnable-header button' );
-		toggleButtons.forEach( function ( btn ) {
+		toggleButtons.forEach( ( btn ) => {
 			btn.addEventListener( 'click', () => {
 				props.onTogglePinned();
 			} );
@@ -395,7 +392,7 @@ module.exports = function tableOfContents( props ) {
 	 * Bind event listeners for clicking on section headings and toggle buttons.
 	 */
 	function bindSubsectionToggleListeners() {
-		props.container.addEventListener( 'click', function ( e ) {
+		props.container.addEventListener( 'click', ( e ) => {
 			if (
 				!( e.target instanceof HTMLElement )
 			) {
@@ -403,12 +400,12 @@ module.exports = function tableOfContents( props ) {
 			}
 
 			const tocSection =
-				/** @type {HTMLElement | null} */ ( e.target.closest( `.${SECTION_CLASS}` ) );
+				/** @type {HTMLElement | null} */ ( e.target.closest( `.${ SECTION_CLASS }` ) );
 
 			if ( tocSection && tocSection.id ) {
 				// In case section link contains HTML,
 				// test if click occurs on any child elements.
-				if ( e.target.closest( `.${LINK_CLASS}` ) ) {
+				if ( e.target.closest( `.${ LINK_CLASS }` ) ) {
 					// Temporarily unbind the hash change listener to avoid redundant
 					// behavior caused by firing both the onHeadingClick callback and the
 					// onHashChange callback. Instead, only fire the onHeadingClick
@@ -425,7 +422,7 @@ module.exports = function tableOfContents( props ) {
 				}
 				// Toggle button does not contain child elements,
 				// so classList check will suffice.
-				if ( e.target.closest( `.${TOGGLE_CLASS}` ) ) {
+				if ( e.target.closest( `.${ TOGGLE_CLASS }` ) ) {
 					toggleExpandSection( tocSection.id );
 					if ( props.onToggleClick ) {
 						props.onToggleClick( tocSection.id );
@@ -442,7 +439,7 @@ module.exports = function tableOfContents( props ) {
 	function initialize() {
 		// Sync component state to the default rendered state of the table of contents.
 		expandedSections = Array.from(
-			props.container.querySelectorAll( `.${EXPANDED_SECTION_CLASS}` )
+			props.container.querySelectorAll( `.${ EXPANDED_SECTION_CLASS }` )
 		);
 
 		// Initialize toggle buttons aria-expanded attribute.
@@ -470,7 +467,6 @@ module.exports = function tableOfContents( props ) {
 	 * Updates button styling for the TOC toggle button when scrolled below the page title
 	 *
 	 * @param {boolean} scrollBelow
-	 *
 	 */
 	function updateTocToggleStyles( scrollBelow ) {
 		const TOC_TITLEBAR_TOGGLE_ID = 'vector-page-titlebar-toc-label';

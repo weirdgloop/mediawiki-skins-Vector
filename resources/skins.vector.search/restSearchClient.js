@@ -108,16 +108,16 @@ function restSearchClient( config ) {
 			);
 			const params = { q, limit: limit.toString() };
 			const search = new URLSearchParams( params );
-			const url = `${searchApiUrl}/v1/search/title?${search.toString()}`;
+			const url = `${ searchApiUrl }/v1/search/title?${ search.toString() }`;
 			const result = fetchJson( url, {
 				headers: {
 					accept: 'application/json'
 				}
 			} );
 			const searchResponsePromise = result.fetch
-				.then( ( /** @type {RestResponse} */ res ) => {
-					return adaptApiResponse( config, q, res, showDescription );
-				} );
+				.then( ( /** @type {RestResponse} */ res ) => adaptApiResponse(
+					config, q, res, showDescription
+				) );
 			return {
 				abort: result.abort,
 				fetch: searchResponsePromise

@@ -21,14 +21,27 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.41"
+		"MediaWiki": ">= 1.43"
+	},
+	"attributes": {
+		"DarkMode": {
+			"Disabled": [
+				"vector-2022"
+			]
+		}
 	},
 	"ValidSkinNames": {
 		"vector-2022": {
 			"class": "MediaWiki\\Skins\\Vector\\SkinVector22",
+			"services": [
+				"LanguageConverterFactory",
+				"Vector.FeatureManagerFactory"
+			],
 			"args": [
 				{
 					"name": "vector-2022",
+					"supportsMwHeading": true,
+					"wrapSiteNotice": true,
 					"templateDirectory": "includes/templates",
 					"template": "skin",
 					"tempUserBanner": true,
@@ -40,6 +53,7 @@
 						}
 					},
 					"bodyClasses": [
+						"skin--responsive",
 						"skin-vector",
 						"skin-vector-search-vue"
 					],
@@ -55,17 +69,14 @@
 						"associated-pages"
 					],
 					"scripts": [
-						"skins.vector.user",
 						"skins.vector.js"
 					],
 					"styles": [
-						"codex-search-styles",
+						"skins.vector.search.codex.styles",
 						"skins.vector.styles",
-						"skins.vector.user.styles",
 						"skins.vector.icons"
 					],
 					"messages": [
-						"vector-client-preferences",
 						"tooltip-p-logo",
 						"vector-opt-out-tooltip",
 						"vector-opt-out",
@@ -92,20 +103,23 @@
 						"views",
 						"vector-page-tools-nav-label",
 						"empty-language-selector-body",
-						"vector-toc-unpinned-popup",
-						"vector-page-tools-unpinned-popup",
-						"vector-main-menu-unpinned-popup"
+						"vector-appearance-label"
 					]
 				}
 			]
 		},
 		"vector": {
 			"class": "MediaWiki\\Skins\\Vector\\SkinVectorLegacy",
-			"@args": "See SkinVector::__construct for more detail.",
+			"services": [
+				"LanguageConverterFactory"
+			],
 			"args": [
 				{
 					"name": "vector",
+					"supportsMwHeading": true,
+					"wrapSiteNotice": true,
 					"template": "skin-legacy",
+					"clientPrefEnabled": true,
 					"templateDirectory": "includes/templates",
 					"responsive": false,
 					"link": {
@@ -149,10 +163,6 @@
 		"vector-2022": "resources/mediawiki.less/vector-2022",
 		"vector": "resources/mediawiki.less/vector"
 	},
-	"SkinCodexThemes": {
-		"vector-2022": "wikimedia-ui-legacy",
-		"vector": "wikimedia-ui-legacy"
-	},
 	"MessagesDirs": {
 		"Vector": [
 			"i18n"
@@ -170,8 +180,9 @@
 		"vector-page-tools-pinned": 1,
 		"vector-main-menu-pinned": 1,
 		"vector-toc-pinned": 1,
+		"vector-appearance-pinned": 1,
 		"vector-font-size": 0,
-		"vector-typography-survey": 0
+		"vector-theme": "day"
 	},
 	"HookHandlers": {
 		"VectorCentralAuthHooks": {
@@ -181,32 +192,48 @@
 			]
 		},
 		"VectorHooks": {
-			"class": "MediaWiki\\Skins\\Vector\\Hooks"
+			"class": "MediaWiki\\Skins\\Vector\\Hooks",
+			"services": [
+				"MainConfig",
+				"UserOptionsManager"
+			]
 		}
 	},
 	"Hooks": {
 		"CentralAuthIsUIReloadRecommended": "VectorCentralAuthHooks",
 		"GetPreferences": "VectorHooks",
 		"LocalUserCreated": "VectorHooks",
-		"MakeGlobalVariablesScript": "VectorHooks",
-		"ResourceLoaderSiteModulePages": "VectorHooks",
-		"ResourceLoaderSiteStylesModulePages": "VectorHooks",
-		"SkinPageReadyConfig": "VectorHooks"
+		"SkinPageReadyConfig": "VectorHooks",
+		"GetBetaFeaturePreferences": "VectorHooks"
 	},
 	"@note": "When modifying skins.vector.styles definition, make sure the installer still works",
 	"ResourceModules": {
-		"skins.vector.user": {
-			"class": "MediaWiki\\Skins\\Vector\\ResourceLoader\\VectorResourceLoaderUserModule"
+		"skins.vector.search.codex.styles": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexStyleOnly": true,
+			"codexComponents": [
+				"CdxTypeaheadSearch",
+				"CdxSearchInput",
+				"CdxButton",
+				"CdxRadio",
+				"CdxMessage"
+			]
 		},
-		"skins.vector.user.styles": {
-			"class": "MediaWiki\\Skins\\Vector\\ResourceLoader\\VectorResourceLoaderUserStylesModule"
+		"skins.vector.search.codex.scripts": {
+			"dependencies": [
+				"skins.vector.search.codex.styles"
+			],
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexScriptOnly": true,
+			"codexComponents": [
+				"CdxTypeaheadSearch"
+			]
 		},
 		"skins.vector.search": {
-			"es6": true,
 			"dependencies": [
-				"mediawiki.Uri",
+				"web2017-polyfills",
 				"mediawiki.util",
-				"@wikimedia/codex-search"
+				"skins.vector.search.codex.scripts"
 			],
 			"packageFiles": [
 				"resources/skins.vector.search/skins.vector.search.js",
@@ -228,7 +255,7 @@
 			]
 		},
 		"skins.vector.styles.legacy": {
-			"class": "ResourceLoaderSkinModule",
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": {
 				"normalize": true,
 				"elements": true,
@@ -237,11 +264,9 @@
 				"content-links": true,
 				"content-links-external": false,
 				"interface": true,
-				"interface-message-box": true,
 				"interface-category": true,
 				"content-tables": true,
 				"i18n-ordered-lists": true,
-				"i18n-all-lists-margins": true,
 				"i18n-headings": true
 			},
 			"styles": [
@@ -249,11 +274,11 @@
 			]
 		},
 		"skins.vector.styles": {
-			"class": "ResourceLoaderSkinModule",
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": {
 				"normalize": true,
 				"elements": true,
-				"content-links": true,
+				"content-links": false,
 				"content-links-external": false,
 				"content-media": true,
 				"content-tables": true,
@@ -261,29 +286,16 @@
 				"interface-category": true,
 				"interface-edit-section-links": true,
 				"interface-indicators": false,
-				"interface-message-box": true,
 				"interface-site-notice": false,
 				"interface-subtitle": false,
 				"interface-user-message": true,
 				"i18n-ordered-lists": true,
-				"i18n-all-lists-margins": true,
 				"i18n-headings": true,
 				"toc": false
 			},
 			"styles": [
+				"resources/skins.vector.styles/CSSCustomProperties.less",
 				"resources/skins.vector.styles/skin.less"
-			],
-			"lessMessages": [
-				"parentheses-start",
-				"parentheses-end",
-				"brackets-start",
-				"brackets-end"
-			]
-		},
-		"skins.vector.zebra.styles": {
-			"class": "ResourceLoaderSkinModule",
-			"styles": [
-				"resources/skins.vector.zebra.styles/skin.less"
 			],
 			"lessMessages": [
 				"parentheses-start",
@@ -297,13 +309,8 @@
 			"selectorWithoutVariant": ".vector-icon.mw-ui-icon-wikimedia-{name}",
 			"useDataURI": false,
 			"defaultColor": "#000",
-			"class": "ResourceLoaderOOUIIconPackModule",
-			"variants": {
-				"progressive": {
-					"color": "#36c",
-					"global": true
-				}
-			},
+			"class": "MediaWiki\\ResourceLoader\\OOUIIconPackModule",
+			"useMaskImage": true,
 			"icons": [
 				"article",
 				"edit",
@@ -313,7 +320,8 @@
 				"history",
 				"speechBubbles",
 				"speechBubbleAdd",
-				"wikiText"
+				"wikiText",
+				"appearance"
 			]
 		},
 		"skins.vector.icons": {
@@ -321,13 +329,8 @@
 			"selectorWithoutVariant": ".vector-icon.mw-ui-icon-wikimedia-{name}",
 			"useDataURI": false,
 			"defaultColor": "#000",
-			"class": "ResourceLoaderOOUIIconPackModule",
-			"variants": {
-				"progressive": {
-					"color": "#36c",
-					"global": true
-				}
-			},
+			"class": "MediaWiki\\ResourceLoader\\OOUIIconPackModule",
+			"useMaskImage": true,
 			"icons": [
 				"tray",
 				"bell",
@@ -352,27 +355,39 @@
 				"logOut",
 				"imageGallery",
 				"userGroup",
-				"expand",
 				"listBullet",
 				"close"
 			]
 		},
 		"skins.vector.clientPreferences": {
-			"es6": true,
 			"packageFiles": [
-				"resources/skins.vector.clientPreferences/main.js",
-				"resources/skins.vector.clientPreferences/config.json",
 				"resources/skins.vector.clientPreferences/clientPreferences.js"
 			],
 			"messages": [
+				"skin-theme-name",
+				"skin-theme-description",
+				"skin-theme-day-label",
+				"skin-theme-night-label",
+				"skin-theme-os-label",
+				"skin-theme-exclusion-notice",
 				"vector-feature-limited-width-name",
-				"vector-feature-custom-font-size-name",
 				"vector-feature-limited-width-0-label",
 				"vector-feature-limited-width-1-label",
-				"vector-feature-custom-font-size-enabled-label",
-				"vector-feature-custom-font-size-disabled-label"
+				"vector-feature-limited-width-exclusion-notice",
+				"vector-feature-custom-font-size-name",
+				"vector-feature-custom-font-size-0-label",
+				"vector-feature-custom-font-size-1-label",
+				"vector-feature-custom-font-size-2-label",
+				"vector-feature-custom-font-size-exclusion-notice",
+				"vector-night-mode-issue-reporting-notice-url",
+				"vector-night-mode-issue-reporting-notice-tooltip",
+				"vector-night-mode-issue-reporting-preload-title",
+				"vector-night-mode-beta-tag",
+				"vector-night-mode-issue-reporting-link-notification",
+				"vector-night-mode-issue-reporting-link-label"
 			],
 			"dependencies": [
+				"mediawiki.api",
 				"mediawiki.user"
 			],
 			"styles": [
@@ -380,7 +395,10 @@
 			]
 		},
 		"skins.vector.js": {
-			"es6": true,
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
+			"styles": [
+				"resources/skins.vector.js/index.less"
+			],
 			"packageFiles": [
 				"resources/skins.vector.js/skin.js",
 				"resources/skins.vector.js/setupIntersectionObservers.js",
@@ -392,9 +410,10 @@
 				"resources/skins.vector.js/sectionObserver.js",
 				"resources/skins.vector.js/deferUntilFrame.js",
 				"resources/skins.vector.js/pinnableElement.js",
+				"resources/skins.vector.js/userPreferences.js",
 				"resources/skins.vector.js/features.js",
-				"resources/skins.vector.js/limitedWidthToggle.js",
 				"resources/skins.vector.js/popupNotification.js",
+				"resources/skins.vector.js/clientPreferences.json",
 				{
 					"name": "resources/skins.vector.js/activeABTest.json",
 					"callback": "MediaWiki\\Skins\\Vector\\Hooks::getActiveABTest"
@@ -402,7 +421,8 @@
 				{
 					"name": "resources/skins.vector.js/config.json",
 					"config": [
-						"VectorSearchApiUrl"
+						"VectorSearchApiUrl",
+						"VectorWrapTablesTemporary"
 					]
 				},
 				{
@@ -424,10 +444,12 @@
 				"resources/skins.vector.js/watchstar.js",
 				"resources/skins.vector.js/portlets.js",
 				"resources/skins.vector.js/dropdownMenus.js",
+				"resources/skins.vector.js/tables.js",
 				"resources/skins.vector.js/languageButton.js",
 				"resources/skins.vector.js/echo.js",
 				"resources/skins.vector.js/searchLoader.js",
-				"resources/skins.vector.js/menuTabs.js"
+				"resources/skins.vector.js/menuTabs.js",
+				"resources/skins.vector.js/disableNightModeIfGadget.js"
 			],
 			"dependencies": [
 				"skins.vector.clientPreferences",
@@ -437,21 +459,21 @@
 				"mediawiki.cookie",
 				"mediawiki.experiments",
 				"skins.vector.icons.js",
-				"mediawiki.page.ready",
-				"mediawiki.util"
+				"mediawiki.util",
+				"mediawiki.jqueryMsg"
 			],
 			"messages": [
-				"vector-limited-width-toggle-on-popup",
-				"vector-limited-width-toggle-off-popup",
 				"vector-search-loader",
-				"vector-limited-width-toggle",
 				"vector-toc-beginning",
 				"vector-toc-label",
 				"vector-pin-element-label",
 				"vector-unpin-element-label",
 				"vector-toc-unpinned-popup",
 				"vector-page-tools-unpinned-popup",
-				"vector-main-menu-unpinned-popup"
+				"vector-main-menu-unpinned-popup",
+				"vector-appearance-unpinned-popup",
+				"vector-night-mode-gadget-names",
+				"vector-night-mode-gadget-warning"
 			]
 		},
 		"skins.vector.legacy.js": {
@@ -475,27 +497,6 @@
 			"messages": [
 				"vector-search-loader"
 			]
-		},
-		"skins.vector.typographySurvey": {
-			"packageFiles": [
-				"resources/skins.vector.typographySurvey/index.js",
-				"resources/skins.vector.typographySurvey/TypographySurvey.vue"
-			],
-			"dependencies": [
-				"vue",
-				"mediawiki.storage"
-			],
-			"messages": [
-				"vector-readability-survey-title",
-				"vector-readability-survey-description",
-				"vector-readability-survey-fontSize",
-				"vector-readability-survey-lineHeight",
-				"vector-readability-survey-paragraphSpacing",
-				"vector-readability-survey-optout",
-				"vector-readability-survey-randomize",
-				"vector-readability-survey-reset",
-				"vector-readability-survey-share"
-			]
 		}
 	},
 	"ResourceFileModulePaths": {
@@ -509,9 +510,8 @@
 			"+mediawiki.action.edit": "skinStyles/mediawiki.action.edit.less",
 			"+mediawiki.action.view.redirectPage": "skinStyles/mediawiki.action.view.redirectPage.less",
 			"+mediawiki.notification": "skinStyles/mediawiki.notification.less",
-			"+mediawiki.page.ready": "skinStyles/mediawiki.page.ready.less",
+			"+mediawiki.page.ready": "skinStyles/teleportTarget.less",
 			"+oojs-ui-core.styles": "skinStyles/ooui.less",
-			"mediawiki.special": "skinStyles/mediawiki.special.less",
 			"mediawiki.special.search.interwikiwidget.styles": "skinStyles/mediawiki.special.search.interwikiwidget.less",
 			"+ext.relatedArticles.readMore": "skinStyles/ext.relatedArticles.readMore.less",
 			"+ext.uls.compactlinks": "skinStyles/ext.uls.compactlinks.less",
@@ -556,23 +556,57 @@
 			"+mediawiki.action.view.redirectPage": "skinStyles/mediawiki.action.view.redirectPage.less",
 			"+mediawiki.notification": "skinStyles/vector/mediawiki.notification.less",
 			"+oojs-ui-core.styles": "skinStyles/ooui.less",
-			"mediawiki.special": "skinStyles/mediawiki.special.less",
 			"+ext.relatedArticles.readMore": "skinStyles/ext.relatedArticles.readMore.less",
 			"+ext.uls.compactlinks": "skinStyles/ext.uls.compactlinks.less",
 			"+ext.uls.interface": "skinStyles/ext.uls.interface.less"
 		}
 	},
+	"QUnitTestModule": {
+		"localBasePath": "",
+		"remoteSkinPath": "Vector",
+		"dependencies": [
+			"skins.vector.clientPreferences"
+		],
+		"scripts": [
+			"tests/integration-qunit/integration.test.js"
+		]
+	},
 	"config": {
-		"VectorClientPreferences": {
-			"value": {
-				"logged_in": false,
-				"logged_out": false
-			},
-			"description": "@var array enables a client preferences interface."
+		"VectorWrapTablesTemporary": {
+			"value": false,
+			"description": "@var bool temporary config variable for controlling role out of tables. When enabled certain tables will be wrapped with a div"
 		},
-		"VectorShareUserScripts": {
-			"value": true,
-			"description": "Temporary configuration flag that determines whether Vector skins should share user scripts and styles."
+		"VectorNightMode": {
+			"value": {
+				"logged_out": false,
+				"logged_in": true,
+				"beta": false
+			},
+			"description": "@var array enables dark/night mode."
+		},
+		"VectorFontSizeConfigurableOptions": {
+			"value": {
+				"exclude": {
+					"mainpage": false,
+					"pagetitles": [],
+					"namespaces": [ -1, 6, 14, 100, 710 ],
+					"querystring": { "action": "info|protect|delete|undelete|action|history" }
+				},
+				"include": []
+			},
+			"description": "@var array determines on which pages the font size is configurable."
+		},
+		"VectorNightModeOptions": {
+			"value": {
+				"exclude": {
+					"mainpage": false,
+					"pagetitles": [],
+					"namespaces": [],
+					"querystring": {}
+				},
+				"include": []
+			},
+			"description": "@var array determines which pages are compatible with night mode"
 		},
 		"VectorSearchApiUrl": {
 			"value": "",
@@ -584,7 +618,7 @@
 		"VectorMaxWidthOptions": {
 			"value": {
 				"exclude": {
-					"mainpage": false,
+					"mainpage": true,
 					"querystring": {
 						"action": "(history|edit|submit)",
 						"diff": ".+"
@@ -641,7 +675,7 @@
 		},
 		"VectorWebABTestEnrollment": {
 			"value": {
-				"name": "skin-vector-zebra-experiment",
+				"name": "skin-vector-unnamed",
 				"enabled": false,
 				"buckets": {
 					"unsampled": {
@@ -664,13 +698,6 @@
 		"VectorTableOfContentsCollapseAtCount": {
 			"value": 28,
 			"description": "@var The minimum number of headings required to collapse all headings in the sticky table of contents by default."
-		},
-		"VectorZebraDesign": {
-			"value": {
-				"logged_in": false,
-				"logged_out": false
-			},
-			"description": "@var boolean Temporary feature flag that enables the zebra design for the Vector skin."
 		}
 	},
 	"ServiceWiringFiles": [

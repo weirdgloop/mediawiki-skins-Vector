@@ -13,7 +13,8 @@ describe( 'instrumentation', () => {
 	test( 'addWprovToSearchResultUrls without offset', () => {
 		const url1 = 'https://host/?title=Special%3ASearch&search=Aa',
 			url2Base = 'https://host/?title=Special%3ASearch&search=Ab',
-			url3 = 'https://host/Ac';
+			url3 = 'https://host/Ac',
+			url5 = '/index.php?title=Special%3ASearch&search=Ad';
 		const results = [
 			{
 				title: 'Aa',
@@ -21,7 +22,7 @@ describe( 'instrumentation', () => {
 			},
 			{
 				title: 'Ab',
-				url: `${url2Base}&wprov=xyz`
+				url: `${ url2Base }&wprov=xyz`
 			},
 			{
 				title: 'Ac',
@@ -29,6 +30,10 @@ describe( 'instrumentation', () => {
 			},
 			{
 				title: 'Ad'
+			},
+			{
+				title: 'Ae',
+				url: url5
 			}
 		];
 
@@ -36,18 +41,22 @@ describe( 'instrumentation', () => {
 			.toStrictEqual( [
 				{
 					title: 'Aa',
-					url: `${url1}&wprov=acrw1_0`
+					url: `${ url1 }&wprov=acrw1_0`
 				},
 				{
 					title: 'Ab',
-					url: `${url2Base}&wprov=acrw1_1`
+					url: `${ url2Base }&wprov=acrw1_1`
 				},
 				{
 					title: 'Ac',
-					url: `${url3}?wprov=acrw1_2`
+					url: `${ url3 }?wprov=acrw1_2`
 				},
 				{
 					title: 'Ad'
+				},
+				{
+					title: 'Ae',
+					url: `${ location.origin }${ url5 }&wprov=acrw1_4`
 				}
 			] );
 		expect( results[ 0 ].url ).toStrictEqual( url1 );
@@ -71,11 +80,11 @@ describe( 'instrumentation', () => {
 			.toStrictEqual( [
 				{
 					title: 'Ae',
-					url: `${url1}&wprov=acrw1_4`
+					url: `${ url1 }&wprov=acrw1_4`
 				},
 				{
 					title: 'Af',
-					url: `${url2}&wprov=acrw1_5`
+					url: `${ url2 }&wprov=acrw1_5`
 				}
 			] );
 	} );

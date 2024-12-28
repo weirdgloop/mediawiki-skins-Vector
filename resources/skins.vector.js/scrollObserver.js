@@ -10,6 +10,14 @@ const
  * @param {string} direction the scroll direction
  */
 function firePageTitleScrollHook( direction ) {
+	/**
+	 * For use by WikimediaEvents only.
+	 *
+	 * @event vector.page_title_scroll
+	 * @internal
+	 * @property {string} context
+	 * @property {string} action
+	 */
 	if ( direction === 'down' ) {
 		mw.hook( SCROLL_TITLE_HOOK ).fire( {
 			context: SCROLL_TITLE_CONTEXT_BELOW
@@ -30,7 +38,7 @@ function firePageTitleScrollHook( direction ) {
  * @return {IntersectionObserver}
  */
 function initScrollObserver( show, hide ) {
-	return new IntersectionObserver( function ( entries ) {
+	return new IntersectionObserver( ( entries ) => {
 		if ( !entries[ 0 ].isIntersecting && entries[ 0 ].boundingClientRect.top < 0 ) {
 			// Viewport has crossed the bottom edge of the target element.
 			show();

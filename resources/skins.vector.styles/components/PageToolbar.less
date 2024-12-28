@@ -1,17 +1,17 @@
-@border-base-ems: unit( @border-width-base / @font-size-browser / @font-size-base, em );
+@border-base-ems: unit( @border-width-base / @font-size-browser / @font-size-small, em );
 
 .vector-page-toolbar-container {
 	display: flex;
-	font-size: @font-size-tabs;
+	font-size: @font-size-small;
 	// Use box-shadow instead of border to allow border collapsing between titlebar and toolbar
-	box-shadow: 0 1px @border-color-portal-heading;
+	box-shadow: 0 1px @border-color-subtle;
 	// Add bottom margin to account for box-shadow
 	margin-bottom: 1px;
 
 	.mw-portlet-views {
 		display: none;
 
-		@media ( min-width: @min-width-tablet ) {
+		@media ( min-width: @min-width-breakpoint-tablet ) {
 			&:not( .emptyPortlet ) {
 				display: block;
 			}
@@ -23,6 +23,9 @@
 		.cdx-mixin-css-icon-background( @size-icon-small );
 		.cdx-mixin-css-icon-size( @size-icon-small );
 		.cdx-mixin-css-icon-alignment( );
+
+		// Temporary fix for https://phabricator.wikimedia.org/T356540
+		background-size: ~'calc( max( @{size-icon-small}, @{min-size-icon-small} ) )';
 	}
 }
 

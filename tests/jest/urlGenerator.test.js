@@ -17,14 +17,12 @@ describe( 'urlGenerator', () => {
 			};
 
 			expect( urlGenerator( config ).generateUrl( suggestion ) )
-				.toBe( `/w/index.php?title=Special%3ASearch${extraParams}&search=title` );
+				.toBe( `/w/index.php?title=Special%3ASearch${ extraParams }&search=title` );
 		} );
 
 		test( 'custom params, articlePath', () => {
 			const config = {
-				get: jest.fn().mockImplementation( ( _key, fallback ) => {
-					return fallback;
-				} ),
+				get: jest.fn().mockImplementation( ( _key, fallback ) => fallback ),
 				set: jest.fn()
 			};
 
