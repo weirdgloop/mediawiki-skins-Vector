@@ -21,7 +21,7 @@ function addDefaultPortlet( portlet ) {
 	if ( label ) {
 		const labelDiv = document.createElement( 'div' );
 		labelDiv.classList.add( 'vector-menu-heading' );
-		labelDiv.innerHTML = label.innerText;
+		labelDiv.textContent = label.textContent || '';
 		portlet.insertBefore( labelDiv, label );
 		label.remove();
 	}
