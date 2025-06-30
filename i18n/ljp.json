@@ -1,0 +1,26 @@
+{
+	"@metadata": {
+		"authors": [
+			"DedeKurnn"
+		]
+	},
+	"vector-languages": "Bahasa",
+	"vector-language-button-label": "{{PLURAL:$1|$1|$1 basa}}",
+	"vector-no-language-button-label": "Tambah basa",
+	"vector-action-addsection": "Tambah topik",
+	"vector-action-delete": "Hapus",
+	"vector-action-move": "Alihko",
+	"vector-action-protect": "Lindungi",
+	"vector-view-create": "Guwai",
+	"vector-view-history": "Liyak riwayat",
+	"vector-more-actions": "Barihni",
+	"vector-searchsuggest-containing": "Sepok halaman sai buisi <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong>",
+	"vector-toc-label": "Daptar isi",
+	"vector-toc-beginning": "Mula",
+	"vector-anon-user-menu-pages": "Halaman pakai pedandan sai luwah log",
+	"vector-main-menu-label": "Menu utama",
+	"vector-page-tools-label": "Pekakas",
+	"vector-page-tools-general-label": "Umum",
+	"vector-page-tools-actions-label": "Gawi",
+	"vector-unpin-element-label": "segokko"
+}

@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Muisha wiki hke"
+		]
+	},
+	"vector-languages": "Mineenere",
+	"vector-language-button-label": "{{PLURAL:$1|$1 muneenere|$1 mineenere}}",
+	"vector-no-language-button-label": "Ongerera mineenere",
+	"vector-action-addsection": "Ongerera mushambalo",
+	"vector-action-delete": "Tsimya",
+	"vector-action-move": "Hira byo handi",
+	"vector-action-protect": "Kikiritsa",
+	"vector-view-create": "Hanga",
+	"vector-view-history": "Lola ku byobyakindire ikolwa",
+	"vector-more-actions": "Nakandi",
+	"vector-searchsuggest-containing": "Xonda tushashali totuli ko <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong>",
+	"vector-toc-label": "Byobirimo",
+	"vector-toc-beginning": "Ndangiro",
+	"vector-main-menu-label": "Meni ya ndangiriro",
+	"vector-page-tools-label": "Bikai",
+	"vector-page-tools-general-label": "Ngulukulu",
+	"vector-page-tools-actions-label": "Mikolere",
+	"vector-unpin-element-label": "bisha"
+}

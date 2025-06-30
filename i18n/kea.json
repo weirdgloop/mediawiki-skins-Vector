@@ -1,15 +1,23 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80",
 			"Quintino Lopes Castro Tavares",
 			"Waldir",
 			"Waldyrious"
 		]
 	},
+	"skinname-vector": "Vector antigu (2010)",
+	"skinname-vector-2022": "Vector (2022)",
+	"vector-specialversion-name": "Vector",
+	"prefs-vector-enable-vector-1-label": "Uza Vector antigu",
+	"vector-opt-out": "Muda pa aspetu antigu",
+	"vector-languages": "Línguas",
 	"vector-language-button-label": "{{PLURAL:$1|$1 língua}}",
+	"vector-no-language-button-label": "Adisiona línguas",
+	"vector-language-variant-switcher-label": "Muda varianti di língua",
 	"vector-action-addsection": "Adisiona tópiku",
 	"vector-action-delete": "Paga",
+	"vector-action-move": "Muda nomi",
 	"vector-action-protect": "Proteji",
 	"vector-view-create": "Kria",
 	"vector-view-edit": "Muda",
@@ -17,6 +25,10 @@
 	"vector-view-view": "Le",
 	"vector-view-viewsource": "Odja kódigu-fonti",
 	"vector-more-actions": "Más",
+	"vector-toc-label": "Kontiudu",
+	"vector-toc-beginning": "Inísiu",
+	"vector-main-menu-label": "Menu prinsipal",
 	"vector-page-tools-label": "Feramentas",
+	"vector-pin-element-label": "poi na bara lateral",
 	"vector-unpin-element-label": "sukundi"
 }
