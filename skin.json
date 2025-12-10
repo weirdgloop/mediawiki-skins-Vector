@@ -126,6 +126,16 @@
 					"bodyClasses": [
 						"skin-vector-legacy"
 					],
+					"menus": [
+						"user-interface-preferences",
+						"user-page",
+						"user-menu",
+						"notifications",
+						"views",
+						"actions",
+						"variants",
+						"associated-pages"
+					],
 					"scripts": [
 						"skins.vector.legacy.js"
 					],
