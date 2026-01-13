@@ -10,5 +10,6 @@
 	"vector-view-create": "Schtaerte",
 	"vector-view-edit": "Ennere",
 	"vector-view-history": "Gschicht zeige",
-	"vector-view-view": "Lese"
+	"vector-view-view": "Lese",
+	"vector-search-redirectedfrom": "Weiterleitung vun $1"
 }

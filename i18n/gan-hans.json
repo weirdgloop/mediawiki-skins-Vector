@@ -15,5 +15,6 @@
 	"vector-view-edit": "编辑",
 	"vector-view-history": "望下历史",
 	"vector-view-view": "读",
-	"vector-view-viewsource": "望下原始码"
+	"vector-view-viewsource": "望下原始码",
+	"vector-search-redirectedfrom": "从$1跳过来"
 }

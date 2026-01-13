@@ -14,5 +14,6 @@
 	"vector-view-history": "Voir l’historique",
 	"vector-view-view": "Lire",
 	"vector-view-viewsource": "Regarder la source",
-	"vector-more-actions": "Plus"
+	"vector-more-actions": "Plus",
+	"vector-search-redirectedfrom": "Envoyé ici de la page $1"
 }

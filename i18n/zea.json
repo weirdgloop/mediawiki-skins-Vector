@@ -14,5 +14,6 @@
 	"vector-view-edit": "Bewerk",
 	"vector-view-history": "Geschiedenisse bekiek'n",
 	"vector-view-view": "Lezen",
-	"vector-view-viewsource": "Brontekst bekieken"
+	"vector-view-viewsource": "Brontekst bekieken",
+	"vector-search-redirectedfrom": "Deurverwezen vanaf $1"
 }

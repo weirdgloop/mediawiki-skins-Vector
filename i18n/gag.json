@@ -10,6 +10,7 @@
 	"vector-action-delete": "Sil",
 	"vector-view-edit": "Diiştir",
 	"vector-view-view": "Oku",
+	"vector-search-redirectedfrom": "$1 sayfasınnan yönnendirildi",
 	"vector-toc-label": "İçindekilär",
 	"vector-unpin-element-label": "sakla"
 }

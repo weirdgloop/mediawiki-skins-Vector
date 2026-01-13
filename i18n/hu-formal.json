@@ -14,5 +14,6 @@
 	"vector-view-edit": "Szerkesztés",
 	"vector-view-history": "Laptörténet",
 	"vector-view-view": "Olvasás",
-	"vector-view-viewsource": "A lap forrása"
+	"vector-view-viewsource": "A lap forrása",
+	"vector-search-redirectedfrom": "$1 szócikkből átirányítva"
 }

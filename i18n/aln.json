@@ -16,5 +16,6 @@
 	"vector-view-edit": "Redakto",
 	"vector-view-history": "Shih historinë",
 	"vector-view-view": "Lexo",
-	"vector-view-viewsource": "Shih kodin"
+	"vector-view-viewsource": "Shih kodin",
+	"vector-search-redirectedfrom": "Përcjellë nga $1"
 }

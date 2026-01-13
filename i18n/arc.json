@@ -16,5 +16,6 @@
 	"vector-view-edit": "ܫܚܠܦ",
 	"vector-view-history": "ܚܙܝ ܬܫܥܝܬܐ",
 	"vector-view-view": "ܩܪܝ",
-	"vector-view-viewsource": "ܚܙܝ ܡܒܘܥܐ"
+	"vector-view-viewsource": "ܚܙܝ ܡܒܘܥܐ",
+	"vector-search-redirectedfrom": "ܨܝܒ ܡܢ $1"
 }

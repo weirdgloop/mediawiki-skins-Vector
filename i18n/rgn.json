@@ -7,5 +7,6 @@
 	"vector-action-move": "Chèmbia nòm",
 	"vector-action-protect": "Metti-j una pruteziò",
 	"vector-action-undelete": "Armett a post",
-	"vector-action-unprotect": "Sbloca"
+	"vector-action-unprotect": "Sbloca",
+	"vector-search-redirectedfrom": "Ri-direziòn da <b>$1</b>"
 }

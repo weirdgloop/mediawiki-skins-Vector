@@ -15,5 +15,6 @@
 	"vector-view-edit": "Άλλαξον",
 	"vector-view-history": "Τερέστεν ιστορίαν",
 	"vector-view-view": "Δεάβασον",
-	"vector-view-viewsource": "Τερέστεν κωδικόν"
+	"vector-view-viewsource": "Τερέστεν κωδικόν",
+	"vector-search-redirectedfrom": "Έρτεν ασό $1"
 }

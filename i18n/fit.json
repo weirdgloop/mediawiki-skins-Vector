@@ -16,5 +16,6 @@
 	"vector-view-edit": "Mookkaa",
 	"vector-view-history": "Näytä histuuria",
 	"vector-view-view": "Lue",
-	"vector-view-viewsource": "Näytä lähekooti"
+	"vector-view-viewsource": "Näytä lähekooti",
+	"vector-search-redirectedfrom": "Ohjattu sivulta $1"
 }

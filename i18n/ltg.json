@@ -11,5 +11,6 @@
 	"vector-action-unprotect": "Puormeit apsardzeibu",
 	"vector-view-edit": "Pataiseit",
 	"vector-view-history": "Viesture",
-	"vector-view-view": "Vērtīs"
+	"vector-view-view": "Vērtīs",
+	"vector-search-redirectedfrom": "Puoradresēts nu $1"
 }
