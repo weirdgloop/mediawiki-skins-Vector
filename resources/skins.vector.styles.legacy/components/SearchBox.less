@@ -103,7 +103,7 @@
 	width: 20vw;
 	min-width: 20em;
 
-	.cdx-typeahead-search--show-thumbnail.cdx-typeahead-search--auto-expand-width:not(.cdx-typeahead-search--expanded) {
+	.cdx-typeahead-search--show-thumbnail:not(.cdx-typeahead-search--is-mobile-view).cdx-typeahead-search--auto-expand-width:not(.cdx-typeahead-search--expanded) {
 		margin-left: 0;
 	}
 
@@ -184,5 +184,9 @@
 	.cdx-thumbnail__placeholder, .cdx-thumbnail__image {
 		// most of our wikis' featured images have a subject where the top is more relevant than the center
 		background-position: top;
+	}
+
+	.cdx-menu, .cdx-menu-item {
+		font-size: unset;
 	}
 }
